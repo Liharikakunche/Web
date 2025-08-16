@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator in HTML CSS & JavaScript</title>
+    <link rel="stylesheet" href="calc.css" />
+  </head>
+  <body>
+    <div class="container">
+      <input type="text" class="display" />
+      <div class="buttons">
+        <button class="operator" data-value="AC">AC</button>
+        <button class="operator" data-value="DEL">DEL</button>
+        <button class="operator" data-value="%">%</button>
+        <button class="operator" data-value="/">/</button>
+        <button data-value="7">7</button>
+        <button data-value="8">8</button>
+        <button data-value="9">9</button>
+        <button class="operator" data-value="*">*</button>
+        <button data-value="4">4</button>
+        <button data-value="5">5</button>
+        <button data-value="6">6</button>
+        <button class="operator" data-value="-">-</button>
+        <button data-value="1">1</button>
+        <button data-value="2">2</button>
+        <button data-value="3">3</button>
+        <button class="operator" data-value="+">+</button>
+        <button data-value="0">0</button>
+        <button data-value="00">00</button>
+        <button data-value=".">.</button>
+        <button class="operator" data-value="=">=</button>
+      </div>
+    </div>
+
+    #css
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Animated Background */
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #33CC33;
+}
+
+:root {
+  --white-color: #fff;
+  --bg-color: #000;
+  --gray-color: #ccc;
+  --neon-blue: #39FF14;
+  --gradient-start: #000000;
+  --gradient-end: #1a1a1a;
+}
+
+body {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Adding a neon glow effect to the body */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(57, 255, 20, 0.2) 0%, rgba(57, 255, 20, 0) 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Adding animation to the neon glow */
+@keyframes neonGlow {
+  0% {
+    background: radial-gradient(circle at center, rgba(57, 255, 20, 0.2) 0%, rgba(57, 255, 20, 0) 70%);
+  }
+  50% {
+    background: radial-gradient(circle at center, rgba(0, 255, 255, 0.2) 0%, rgba(0, 255, 255, 0) 70%);
+  }
+  100% {
+    background: radial-gradient(circle at center, rgba(57, 255, 20, 0.2) 0%, rgba(57, 255, 20, 0) 70%);
+  }
+}
+
+body::after {
+  animation: neonGlow 10s ease-in-out infinite;
+}
+
+/* Container with glowing effect */
+.container {
+  position: relative;
+  max-width: 300px;
+  width: 100%;
+  border-radius: 12px;
+  padding: 10px 20px 20px;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 
+    0 0 20px rgba(51, 204, 51, 0.2),
+    0 0 40px rgba(51, 204, 51, 0.2),
+    0 0 60px rgba(51, 204, 51, 0.2);
+  transition: all 0.3s ease;
+}
+
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 0 30px rgba(51, 204, 51, 0.3),
+    0 0 50px rgba(51, 204, 51, 0.3),
+    0 0 70px rgba(51, 204, 51, 0.3);
+}
+
+/* Display Screen with glow */
+.display {
+  height: 80px;
+  width: 100%;
+  outline: none;
+  border: none;
+  text-align: right;
+  margin-bottom: 10px;
+  font-size: 25px;
+  color: #33CC33;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 6px;
+  padding: 10px;
+  border: 2px solid #33CC33;
+  text-shadow: 0 0 10px #33CC33;
+  box-shadow: inset 0 0 10px rgba(51, 204, 51, 0.2);
+}
+
+/* Button Grid Layout */
+.buttons {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Regular Buttons with hover effects */
+.buttons button {
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 20px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.8);
+  color: #33CC33;
+  border: 2px solid #33CC33;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px #33CC33;
+}
+
+.buttons button:hover {
+  background: #33CC33;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 10px #33CC33,
+    0 0 20px #33CC33,
+    0 0 30px #33CC33;
+}
+
+.buttons button:active {
+  transform: translateY(2px);
+  background: #00FF00;
+  box-shadow: 
+    0 0 5px #00FF00,
+    0 0 10px #00FF00;
+}
+
+/* Operator Buttons with enhanced effects */
+.operator {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #00FFFF;
+  color: #00FFFF;
+  transition: all 0.3s ease;
+}
+
+.operator:hover {
+  background: #00FFFF;
+  color: #000000;
+  box-shadow: 
+    0 0 10px #00FFFF,
+    0 0 20px #00FFFF,
+    0 0 30px #00FFFF;
+}
+
+.operator:active {
+  background: #00FFFF;
+  box-shadow: 
+    0 0 5px #00FFFF,
+    0 0 10px #00FFFF;
+}
+
+.operator[data-value="="] {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #FF5C00;
+  color: #FF5C00;
+  grid-column: span 1;
+}
+
+.operator[data-value="="]:hover {
+  background: #FF5C00;
+  color: #000000;
+  box-shadow: 
+    0 0 10px #FF5C00,
+    0 0 20px #FF5C00,
+    0 0 30px #FF5C00;
+}
+
+.operator[data-value="AC"] {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #FF00FF;
+  color: #FF00FF;
+}
+
+.operator[data-value="DEL"] {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #FFFF00;
+  color: #FFFF00;
+}
+
+.operator[data-value="log"] {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #FF00FF;
+  color: #FF00FF;
+}
+
+.nav-item .nav-link {
+  color: var(--white-color);
+  text-shadow: 0 0 10px var(--white-color),
+               0 0 20px var(--white-color),
+               0 0 30px var(--white-color);
+}
+
+.hero {
+  height: 100vh;
+  background-image: url("Deepika.jpg");
+  background-repeat: no-repeat;
+  background-position: 60% 0%;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+#skills i {
+  height: 100px;
+  width: 100px;
+  text-shadow: 0 0 10px var(--white-color),
+               0 0 20px var(--white-color),
+               0 0 30px var(--white-color);
+}
+
+#portfolio img {
+  height: 300px;
+  object-fit: cover;
+  box-shadow: 0 0 10px var(--white-color),
+              0 0 20px var(--white-color),
+              0 0 30px var(--white-color);
+}
+
+#about .img,
+#about img,
+.hire-text h2 {
+  position: relative;
+}
+
+#about .img::before {
+  content: "";
+  left: 50%;
+  width: 4px;
+  position: absolute;
+  height: calc(100% + 140px);
+  background: var(--gray-color);
+  box-shadow: 0 0 10px var(--gray-color),
+              0 0 20px var(--gray-color),
+              0 0 30px var(--gray-color);
+}
+
+#about img,
+#about .hire-text h2 {
+  width: 140px;
+}
+
+#about .hire-text h2 {
+  height: 140px;
+}
+
+.social-icons a {
+  width: 40px;
+  height: 40px;
+  box-shadow: 0 0 10px var(--white-color),
+              0 0 20px var(--white-color),
+              0 0 30px var(--white-color);
+}
+
+footer .social-icons a {
+  width: 30px;
+  height: 30px;
+  box-shadow: 0 0 10px var(--white-color),
+              0 0 20px var(--white-color),
+              0 0 30px var(--white-color);
+}
+
+#cv img {
+  width: 230px;
+  box-shadow: 0 0 10px var(--white-color),
+              0 0 20px var(--white-color),
+              0 0 30px var(--white-color);
+}
+
+#contact {
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-image: url("Deepika.jpg");
+}
+
+@media screen and (max-width: 990px) {
+  #skills .card {
+    width: calc(100% / 2 - 10px) !important;
+  }
+}
+
+@media screen and (max-width: 668px) {
+  #skills .card,
+  #portfolio .card-wrapper {
+    width: 100% !important;
+  }
+}
+  #about .hire-text h2 {
+    height: 70px;
+    width: 70px;
+  }
+
+  ###javascript
+  const display = document.querySelector(".display");
+const buttons = document.querySelectorAll("button");
+const specialChars = ["%", "*", "/", "-", "+", "="];
+let output = "";
+//Define function to calculate based on button clicked.
+const calculate = (btnValue) => {
+  display.focus();
+  if (btnValue === "=" && output !== "") {
+    //If output has '%', replace with '/100' before evaluating.
+    output = eval(output.replace("%", "/100"));
+  } else if (btnValue === "AC") {
+    output = "";
+  } else if (btnValue === "DEL") {
+    //If DEL button is clicked, remove the last character from the output.
+    output = output.toString().slice(0, -1);
+  } else {
+    //If output is empty and button is specialChars then return
+    if (output === "" && specialChars.includes(btnValue)) return;
+    output += btnValue;
+  }
+  display.value = output;
+};
+//Add event listener to buttons, call calculate() on click.
+buttons.forEach((button) => {
+  //Button click listener calls calculate() with dataset value as argument.
+  button.addEventListener("click", (e) => calculate(e.target.dataset.value));
+});
+    <script src="calc.js"></script>
+  </body>
+</html>
